@@ -1,0 +1,72 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+repositories {
+    mavenCentral()
+}
+
+/*test {
+    println 'Test'
+    useTestNG() {
+        suites 'src/test/resources/testng.xml'
+    }
+    failFast = false
+}*/
+test {
+    systemProperty "driver", "chrome"
+    useTestNG() {
+        suites 'src/test/resources/testng.xml'
+    }
+}
+task chrome(type: Test) {
+    systemProperty "driver", "chrome"
+    useTestNG {
+        suites "src/test/resources/testng.xml"
+    }
+}
+task firefox(type: Test) {
+    systemProperty "driver", "firefox"
+    useTestNG {
+        suites "src/test/resources/testng.xml"
+    }
+}
+
+task browserstack(type: Test) {
+    systemProperty "driver", "remote"
+    useTestNG {
+        suites "src/test/resources/testng.xml"
+    }
+}
+task ie(type: Test) {
+    systemProperty "driver", "ie"
+    useTestNG {
+        suites "src/test/resources/testng.xml"
+    }
+}
+configurations {
+    agent
+}
+
+dependencies {
+    agent "org.aspectj:aspectjweaver:1.8.0"
+    testCompile "ru.yandex.qatools.allure:allure-testng-adaptor:1.4.0"
+    testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-server', version: '3.141.59'
+    // https://mvnrepository.com/artifact/log4j/log4j
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+
+
+
+}
+test.doFirst {
+    jvmArgs "-javaagent:${configurations.agent.singleFile}"
+}
+
