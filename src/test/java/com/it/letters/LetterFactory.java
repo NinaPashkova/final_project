@@ -19,7 +19,7 @@ public class LetterFactory {
 
 
     public static String getDate(){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.YYYY, HH:mm");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("d.MM.YYYY, HH:mm");
         String date = simpleDateFormat.format(new Date());
         return date;
     }
